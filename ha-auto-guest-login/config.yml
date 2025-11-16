@@ -28,6 +28,7 @@ ports_description:
 options:
   guest_username:
   guest_password:
+  guest_token:
   guest_dashboard_path: lovelace/default_view
   welcome_screen_delay_ms: 3000
   welcome_screen_main_text: Thanks for Visiting
@@ -38,6 +39,7 @@ options:
 schema:
   guest_username: str
   guest_password: password
+  guest_token: password?
   guest_dashboard_path: str
   welcome_screen_delay_ms: int(0,)?
   welcome_screen_main_text: str?

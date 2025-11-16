@@ -9,6 +9,7 @@ const configPath = '/data/options.json';
 const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
 
 const dashboard = config.guest_dashboard_path;
+const guestToken = config.guest_token;
 const guestUserName = config.guest_username;
 const guestPassword = config.guest_password;
 const welcomeScreenDelay = config.welcome_screen_delay_ms ?? 3000;
@@ -27,12 +28,17 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.get('/', async (req, res) => {
+
+  if (guestToken && req.query.guestToken !== guestToken) {
+    return res.status(401).send('Unauthorized: Invalid guest token');
+  }
+
   await haClient.postLoginEvent(req);
   res.render("pages/guest-welcome", { 
     delay: welcomeScreenDelay,
     mainText: welcomeScreenMainText,
     secondaryText: welcomeScreenSecondaryText
-  });
+  }); 
 });
 
 app.use('/admin/assets', express.static('assets'));
